@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_try_project/pages/dataLogged.dart';
 import 'package:flutter_try_project/pages/vistaLogged.dart';
 import 'package:http/http.dart' as saka;
 //import 'package:geolocator/geolocator.dart';
@@ -13,6 +14,8 @@ class iniciarSesion extends StatefulWidget {
 
 // ignore: camel_case_types
 class _iniciarSesion extends State<iniciarSesion> {
+  DataLogged userData;
+  bool log = false;
   final TextEditingController userController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   @override
@@ -58,19 +61,28 @@ class _iniciarSesion extends State<iniciarSesion> {
     );
   }
 
+  DataLogged data(DataLogged user) {
+    userData = user;
+    return userData;
+  }
+
   Future loginRequest(String user, String password) async {
-    final apiURL = Uri.parse("http://10.0.2.2:7006/Autenticar/app");
+    final apiURL = Uri.parse("http://10.0.2.2:7000/appAuthenticate");
 
     final response =
-        await saka.post(apiURL, body: {"name": user, "pass": password});
+        await saka.post(apiURL, body: {"username": user, "password": password});
 
+    if (response.statusCode == 404) {
+      print("ERROR DE CREDENCIALES");
+      log = false;
+    }
     if (response.statusCode == 201) {
-      final responseString = response.body;
-      print("LA RESPUESTA DE LA PETICIÓN ES: " + responseString);
-      return responseString;
-    } else {
-      print("NULL EN LA RESPUESTA");
-      return null;
+      print("INICIO DE SESION EXITOSO");
+      print("Esto es lo recibido:\n" + response.body);
+      var usuario = dataLoggedFromJson(response.body);
+      data(usuario);
+      print("Este es el tipo de sangre: " + usuario.persona.tipoSangre.tipo);
+      log = true;
     }
   }
 
@@ -82,11 +94,15 @@ class _iniciarSesion extends State<iniciarSesion> {
         onPressed: () {
           final user = userController.text;
           final password = passController.text;
-          loginRequest(user, password);
-          /*Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Vistalogged()),
-          );*/
+          if (log) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Vistalogged()),
+            );
+          } else {
+            //AGREGAR POPUP INDICANDO QUE HUBO ERROR DE INICIO DE SESION
+          }
+          print(loginRequest(user, password));
         },
         child: Column(
           children: [
