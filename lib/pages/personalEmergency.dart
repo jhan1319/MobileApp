@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_try_project/classes/dataLogged.dart';
+import 'package:flutter_try_project/pages/vistaLogged.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_try_project/pages/iniciarSesion.dart';
+import 'dart:convert';
 
 // ignore: camel_case_types
 class personalEmergency extends StatefulWidget {
-  personalEmergency({Key key}) : super(key: key);
+  final DataLogged data;
+  personalEmergency(this.data, {Key key}) : super(key: key);
 
   @override
   _personalEmergency createState() => _personalEmergency();
@@ -11,10 +18,24 @@ class personalEmergency extends StatefulWidget {
 
 // ignore: camel_case_types
 class _personalEmergency extends State<personalEmergency> {
+  String location;
+  var locationMessage;
+  var longitud;
+  var rawData;
   bool ambulanciaBtn = false;
   bool policiaBtn = false;
+
   bool bomberoBtn = false;
   List<bool> _selections1 = [false, false, false];
+
+  Future<void> getCurrentLocation() async {
+    var position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    setState(() {
+      location = "$position";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +75,50 @@ class _personalEmergency extends State<personalEmergency> {
 
   /////////////////WIDGETS///////////////////////////////////////
 
+  Future personalEmergencyRequest() async {
+    final apiURL = Uri.parse("http://10.0.2.2:7000/personal");
+
+    final response = await http.post(apiURL, body: {
+      "id": widget.data.id.toString(),
+      "location": location.toString(),
+      "ambulancia": _selections1[0].toString(),
+      "bombero": _selections1[1].toString(),
+      "policia": _selections1[2].toString()
+    });
+
+    if (response.statusCode == 404) {
+      print("ERROR DE CREDENCIALES");
+    }
+    if (response.statusCode == 201) {
+      print("EMERGENCIA SOLICITADA");
+      print("Esto es lo recibido:\n" + response.body);
+    }
+  }
+
   Widget confirmar() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: Size.fromHeight(1)),
-        onPressed: () {},
+        onPressed: () async {
+          await getCurrentLocation();
+
+          /* rawData = {
+            "id": widget.data.id,
+            "location": location,
+            "ambulancia": _selections1[0].toString(),
+            "bombero": _selections1[1].toString(),
+            "policia": _selections1[2].toString()
+          };
+ */
+          personalEmergencyRequest();
+
+          var lol = jsonEncode(rawData);
+
+          if (locationMessage != "") {
+            print("Equipos selected: " + lol);
+          }
+        },
         child: Column(
           children: [
             Icon(
@@ -85,7 +144,11 @@ class _personalEmergency extends State<personalEmergency> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: Size.fromHeight(1)),
         onPressed: () {
-          Navigator.pop(context);
+          print("Data recibida: " + widget.data.username);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Vistalogged(widget.data)),
+          );
         },
         child: Column(
           children: [
@@ -140,6 +203,7 @@ class _personalEmergency extends State<personalEmergency> {
         setState(() {
           var isSelected = _selections1;
           isSelected[index] = !isSelected[index];
+          _selections1 = isSelected;
         });
       },
     );

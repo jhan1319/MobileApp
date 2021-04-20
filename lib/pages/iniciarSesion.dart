@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_try_project/pages/dataLogged.dart';
+import 'package:flutter_try_project/classes/dataLogged.dart';
 import 'package:flutter_try_project/pages/vistaLogged.dart';
 import 'package:http/http.dart' as saka;
 //import 'package:geolocator/geolocator.dart';
@@ -91,18 +91,20 @@ class _iniciarSesion extends State<iniciarSesion> {
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 40),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: Size.fromHeight(1)),
-        onPressed: () {
+        onPressed: () async {
           final user = userController.text;
           final password = passController.text;
+          await loginRequest(user, password);
           if (log) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Vistalogged()),
+              MaterialPageRoute(builder: (context) => Vistalogged(userData)),
             );
           } else {
             //AGREGAR POPUP INDICANDO QUE HUBO ERROR DE INICIO DE SESION
           }
-          print(loginRequest(user, password));
+
+          //print(loginRequest(user, password));
         },
         child: Column(
           children: [

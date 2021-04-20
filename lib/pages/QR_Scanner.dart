@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_try_project/classes/dataLogged.dart';
 import 'package:flutter_try_project/pages/tercerosEmergency.dart';
 
 import 'directEmergency.dart';
@@ -10,6 +11,7 @@ import 'directEmergency.dart';
 void main() => runApp(Scanner());
 
 class Scanner extends StatefulWidget {
+  Scanner({Key key}) : super(key: key);
   @override
   _ScannerState createState() => _ScannerState();
 }
@@ -17,10 +19,10 @@ class Scanner extends StatefulWidget {
 class _ScannerState extends State<Scanner> {
   String _scanBarcode = 'Unknown';
 
-  @override
+  /* @override
   void initState() {
     super.initState();
-  }
+  } */
 
   startBarcodeScanStream() async {
     FlutterBarcodeScanner.getBarcodeStreamReceiver(
@@ -94,11 +96,11 @@ class _ScannerState extends State<Scanner> {
                         ElevatedButton(
                             onPressed: () {
                               scanQR();
-                              Navigator.push(
+                              /* Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => tercerosEmergency()),
-                              );
+                              ); */
                             },
                             child: Flex(
                               direction: Axis.vertical,

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_try_project/classes/dataLogged.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 // ignore: camel_case_types
 class tercerosEmergency extends StatefulWidget {
-  tercerosEmergency({Key key}) : super(key: key);
+  final DataLogged data;
+  // ignore: non_constant_identifier_names
+  final String QR;
+  tercerosEmergency(this.data, this.QR, {Key key}) : super(key: key);
 
   @override
   _tercerosEmergency createState() => _tercerosEmergency();
@@ -11,6 +17,7 @@ class tercerosEmergency extends StatefulWidget {
 
 // ignore: camel_case_types
 class _tercerosEmergency extends State<tercerosEmergency> {
+  var location;
   bool ambulanciaBtn = false;
   bool policiaBtn = false;
   bool bomberoBtn = false;
@@ -56,12 +63,46 @@ class _tercerosEmergency extends State<tercerosEmergency> {
 
 /////////////////WIDGETS///////////////////////////////////////
 
+  Future<void> getCurrentLocation() async {
+    var position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    setState(() {
+      location = "$position";
+    });
+  }
+
+  Future tercerosEmergencyRequest() async {
+    final apiURL = Uri.parse("http://10.0.2.2:7000/tercero");
+
+    final response = await http.post(apiURL, body: {
+      "id": widget.data.id.toString(),
+      "location": location.toString(),
+      "ambulancia": _selections1[0].toString(),
+      "bombero": _selections1[1].toString(),
+      "policia": _selections1[2].toString(),
+      "scan": widget.QR.toString()
+    });
+
+    if (response.statusCode == 404) {
+      print("ERROR DE CREDENCIALES");
+    }
+    if (response.statusCode == 201) {
+      print("EMERGENCIA TERCEROS SOLICITADA");
+      print("Esto es lo recibido:\n" + response.body);
+    }
+  }
+
   Widget confirmar() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: Size.fromHeight(1)),
-        onPressed: () {},
+        onPressed: () async {
+          await getCurrentLocation();
+
+          await tercerosEmergencyRequest();
+        },
         child: Column(
           children: [
             Icon(
