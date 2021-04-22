@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_try_project/pages/iniciarSesion.dart';
 import 'dart:convert';
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 // ignore: camel_case_types
 class personalEmergency extends StatefulWidget {
@@ -29,12 +31,14 @@ class _personalEmergency extends State<personalEmergency> {
   List<bool> _selections1 = [false, false, false];
 
   Future<void> getCurrentLocation() async {
+    print("Obteniendo ubicación...\n");
     var position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     setState(() {
       location = "$position";
     });
+    print("Ubicación obtenida!\n");
   }
 
   @override
@@ -75,6 +79,27 @@ class _personalEmergency extends State<personalEmergency> {
 
   /////////////////WIDGETS///////////////////////////////////////
 
+  Future socketMessage(BuildContext context) async {
+    final WebSocketChannel canal = IOWebSocketChannel.connect(
+        Uri.parse("ws://10.0.2.2:7000/wsConnect/" + widget.data.id.toString()));
+    print("Entró a la función socket");
+    canal.sink.add(jsonEncode({
+      "id": widget.data.id.toString(),
+      "location": location.toString(),
+      "ambulancia": _selections1[0].toString(),
+      "bombero": _selections1[1].toString(),
+      "policia": _selections1[2].toString()
+    }));
+    StreamBuilder(
+        // initialData: canal.stream.length,
+        stream: canal.stream,
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          print(snapshot.data.toString());
+
+          return snapshot.data;
+        });
+  }
+
   Future personalEmergencyRequest() async {
     final apiURL = Uri.parse("http://10.0.2.2:7000/personal");
 
@@ -113,11 +138,9 @@ class _personalEmergency extends State<personalEmergency> {
  */
           personalEmergencyRequest();
 
-          var lol = jsonEncode(rawData);
+          //await socketMessage(context);
 
-          if (locationMessage != "") {
-            print("Equipos selected: " + lol);
-          }
+          //var lol = jsonEncode(rawData);
         },
         child: Column(
           children: [
@@ -144,7 +167,6 @@ class _personalEmergency extends State<personalEmergency> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: Size.fromHeight(1)),
         onPressed: () {
-          print("Data recibida: " + widget.data.username);
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Vistalogged(widget.data)),

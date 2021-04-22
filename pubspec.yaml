@@ -35,7 +35,11 @@ dependencies:
   geolocator: ^5.1.5
   google_fonts: ^2.0.0
   http: ^0.13.1
+  web_socket_channel: ^2.0.0
   
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
