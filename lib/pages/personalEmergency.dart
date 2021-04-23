@@ -20,9 +20,9 @@ class personalEmergency extends StatefulWidget {
 
 // ignore: camel_case_types
 class _personalEmergency extends State<personalEmergency> {
-  String location;
+  String longitud;
   var locationMessage;
-  var longitud;
+  String latitud;
   var rawData;
   bool ambulanciaBtn = false;
   bool policiaBtn = false;
@@ -36,7 +36,8 @@ class _personalEmergency extends State<personalEmergency> {
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     setState(() {
-      location = "$position";
+      longitud = position.longitude.toString();
+      latitud = position.latitude.toString();
     });
     print("Ubicación obtenida!\n");
   }
@@ -85,7 +86,7 @@ class _personalEmergency extends State<personalEmergency> {
     print("Entró a la función socket");
     canal.sink.add(jsonEncode({
       "id": widget.data.id.toString(),
-      "location": location.toString(),
+      "longitud": longitud.toString(),
       "ambulancia": _selections1[0].toString(),
       "bombero": _selections1[1].toString(),
       "policia": _selections1[2].toString()
@@ -105,12 +106,14 @@ class _personalEmergency extends State<personalEmergency> {
 
     final response = await http.post(apiURL, body: {
       "id": widget.data.id.toString(),
-      "location": location.toString(),
+      "latitud": latitud.toString(),
+      "longitud": longitud.toString(),
       "ambulancia": _selections1[0].toString(),
       "bombero": _selections1[1].toString(),
-      "policia": _selections1[2].toString()
+      "policia": _selections1[2].toString(),
+      "procedencia": "personal"
     });
-
+    //TODO: ALERT QUE INDIQUE QUE SE CREÓ O NO LA EMERGENCIA
     if (response.statusCode == 404) {
       print("ERROR DE CREDENCIALES");
     }

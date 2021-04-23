@@ -17,6 +17,8 @@ class tercerosEmergency extends StatefulWidget {
 
 // ignore: camel_case_types
 class _tercerosEmergency extends State<tercerosEmergency> {
+  String longitud;
+  String latitud;
   var location;
   bool ambulanciaBtn = false;
   bool policiaBtn = false;
@@ -68,7 +70,8 @@ class _tercerosEmergency extends State<tercerosEmergency> {
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     setState(() {
-      location = "$position";
+      longitud = position.longitude.toString();
+      latitud = position.latitude.toString();
     });
   }
 
@@ -77,11 +80,13 @@ class _tercerosEmergency extends State<tercerosEmergency> {
 
     final response = await http.post(apiURL, body: {
       "id": widget.data.id.toString(),
-      "location": location.toString(),
+      "latitud": latitud.toString(),
+      "longitud": longitud.toString(),
       "ambulancia": _selections1[0].toString(),
       "bombero": _selections1[1].toString(),
       "policia": _selections1[2].toString(),
-      "scan": widget.QR.toString()
+      "scan": widget.QR.toString(),
+      "procedencia": "tercero"
     });
 
     if (response.statusCode == 404) {
