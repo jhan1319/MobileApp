@@ -76,7 +76,7 @@ class _tercerosEmergency extends State<tercerosEmergency> {
   }
 
   Future tercerosEmergencyRequest() async {
-    final apiURL = Uri.parse("http://10.0.2.2:7000/tercero");
+    final apiURL = Uri.parse("http://sie-tech.live:7000/tercero");
 
     final response = await http.post(apiURL, body: {
       "id": widget.data.id.toString(),
@@ -89,12 +89,12 @@ class _tercerosEmergency extends State<tercerosEmergency> {
       "procedencia": "tercero"
     });
 
-    if (response.statusCode == 404) {
-      print("ERROR DE CREDENCIALES");
-    }
     if (response.statusCode == 201) {
-      print("EMERGENCIA TERCEROS SOLICITADA");
+      print("EMERGENCIA SOLICITADA");
       print("Esto es lo recibido:\n" + response.body);
+      _alerta(context, response.body.toString());
+    } else {
+      _alerta(context, "Hubo un error al notificar la emergencia");
     }
   }
 
@@ -148,6 +148,27 @@ class _tercerosEmergency extends State<tercerosEmergency> {
           ],
         ),
       ),
+    );
+  }
+
+  // ignore: unused_element
+  Future<Widget> _alerta(BuildContext context, String msj) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("NOTIFICACION EMERGENTE"),
+          content: Text(msj),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Center(child: Text("Entendido!!")))
+          ],
+        );
+      },
     );
   }
 

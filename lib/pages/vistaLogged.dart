@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_try_project/classes/dataLogged.dart';
 import 'package:flutter_try_project/pages/QR_Scanner.dart';
+import 'package:flutter_try_project/pages/iniciarSesion.dart';
+import 'package:flutter_try_project/main.dart';
 import 'package:flutter_try_project/pages/personalEmergency.dart';
 import 'package:flutter_try_project/pages/tercerosEmergency.dart';
 import 'package:geolocator/geolocator.dart';
@@ -36,6 +38,7 @@ class _Vistalogged extends State<Vistalogged> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      drawer: Menu(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -137,6 +140,68 @@ class _Vistalogged extends State<Vistalogged> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class Menu extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return new Drawer(
+      child: ListView(
+        children: <Widget>[
+          // ignore: missing_required_param
+          UserAccountsDrawerHeader(
+            accountName: Text("Bienvenidooo"),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1200px-User_icon_2.svg.png"),
+              ),
+            ),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(
+                  height: 500,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => homePage()),
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.logout,
+                              size: 20,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "Cerrar sesion",
+                              style: GoogleFonts.lato(fontSize: 20),
+                            ),
+                          ],
+                        ))
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

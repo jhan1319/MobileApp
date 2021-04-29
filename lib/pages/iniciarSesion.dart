@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_try_project/classes/dataLogged.dart';
+import 'package:flutter_try_project/main.dart';
+
 import 'package:flutter_try_project/pages/vistaLogged.dart';
 import 'package:http/http.dart' as saka;
+
+import '../main.dart';
+
 //import 'package:geolocator/geolocator.dart';
 
 // ignore: camel_case_types
@@ -21,9 +26,6 @@ class _iniciarSesion extends State<iniciarSesion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Iniciar Sesión"),
-      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -45,6 +47,9 @@ class _iniciarSesion extends State<iniciarSesion> {
             child: TextField(
               decoration: InputDecoration(hintText: "Password"),
               controller: passController,
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
             ),
           ),
           Divider(
@@ -67,7 +72,7 @@ class _iniciarSesion extends State<iniciarSesion> {
   }
 
   Future loginRequest(String user, String password) async {
-    final apiURL = Uri.parse("http://10.0.2.2:7000/appAuthenticate");
+    final apiURL = Uri.parse("http://sie-tech.live:7000/appAuthenticate");
 
     final response =
         await saka.post(apiURL, body: {"username": user, "password": password});
@@ -131,7 +136,10 @@ class _iniciarSesion extends State<iniciarSesion> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: Size.fromHeight(1)),
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => homePage()),
+          );
         },
         child: Column(
           children: [

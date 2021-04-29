@@ -39,9 +39,6 @@ class _homePageState extends State<homePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Sistema Inteligente de Emergencias"),
-      ),
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(

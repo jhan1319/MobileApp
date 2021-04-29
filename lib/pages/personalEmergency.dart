@@ -114,12 +114,13 @@ class _personalEmergency extends State<personalEmergency> {
       "procedencia": "personal"
     });
     //TODO: ALERT QUE INDIQUE QUE SE CREÓ O NO LA EMERGENCIA
-    if (response.statusCode == 404) {
-      print("ERROR DE CREDENCIALES");
-    }
+
     if (response.statusCode == 201) {
       print("EMERGENCIA SOLICITADA");
       print("Esto es lo recibido:\n" + response.body);
+      _alerta(context, response.body.toString());
+    } else {
+      _alerta(context, "Hubo un error al notificar la emergencia");
     }
   }
 
@@ -192,6 +193,27 @@ class _personalEmergency extends State<personalEmergency> {
   }
 
   ///// PRUEBA DE TOGGLE BUTTONS/////////
+
+  // ignore: unused_element
+  Future<Widget> _alerta(BuildContext context, String msj) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("NOTIFICACION EMERGENTE"),
+          content: Text(msj),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Center(child: Text("Entendido!!")))
+          ],
+        );
+      },
+    );
+  }
 
   Widget botonesEquipos() {
     return ToggleButtons(
