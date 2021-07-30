@@ -46,32 +46,37 @@ class _personalEmergency extends State<personalEmergency> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: ListView(
         children: [
-          Text(
-            "Selecciona los cuerpos de emergencias",
-            style: GoogleFonts.lato(fontSize: 21, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            height: 60,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [botonesEquipos()],
-          ),
-          SizedBox(
-            height: 100,
-          ),
-          Container(
-            child: confirmar(),
-          ),
-          SizedBox(
-            height: 70,
-          ),
-          Container(
-            child: cancelar(context),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Selecciona los cuerpos de emergencias",
+                style:
+                    GoogleFonts.lato(fontSize: 21, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 60,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [botonesEquipos()],
+              ),
+              SizedBox(
+                height: 100,
+              ),
+              Container(
+                child: confirmar(),
+              ),
+              SizedBox(
+                height: 70,
+              ),
+              Container(
+                child: cancelar(context),
+              ),
+            ],
           ),
         ],
       ),
@@ -102,6 +107,7 @@ class _personalEmergency extends State<personalEmergency> {
   }
 
   Future personalEmergencyRequest() async {
+    //final apiURL = Uri.parse("http://sie-tech.live:7000/personal");
     final apiURL = Uri.parse("http://10.0.2.2:7000/personal");
 
     final response = await http.post(apiURL, body: {

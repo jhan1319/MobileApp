@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_try_project/classes/dataLogged.dart';
 import 'package:flutter_try_project/pages/QR_Scanner.dart';
-import 'package:flutter_try_project/pages/iniciarSesion.dart';
 import 'package:flutter_try_project/main.dart';
 import 'package:flutter_try_project/pages/personalEmergency.dart';
 import 'package:flutter_try_project/pages/tercerosEmergency.dart';
+import 'package:flutter_try_project/widgets/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_try_project/pages/Scanner.dart';
@@ -36,44 +36,53 @@ class _Vistalogged extends State<Vistalogged> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      drawer: Menu(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Text("Ubicación según latitud, longitud: \n"),
-          // Text("Position : $location"),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
-            child: Column(
-              children: [
-                Text("Seleccione el tipo de emergencia",
-                    style: GoogleFonts.lato(
-                        fontSize: 22, fontWeight: FontWeight.bold)),
-                SizedBox(
-                  height: 100,
+    return Stack(
+      children: [
+        BackgroundImage(image: 'assets/images/login_SIE.jpg'),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(),
+          drawer: Menu(),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Text("Ubicación según latitud, longitud: \n"),
+              // Text("Position : $location"),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+                child: Column(
+                  children: [
+                    Text("Seleccione el tipo de emergencia",
+                        style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold)),
+                    SizedBox(
+                      height: 100,
+                    ),
+                    personal(context),
+                    SizedBox(
+                      height: 5,
+                    ),
+                  ],
                 ),
-                personal(context),
-                SizedBox(
-                  height: 5,
-                ),
-              ],
-            ),
-          ),
+              ),
 
-          /*Container(
+              /*Container(
             child: confirmar(),
           ),*/
 
-          SizedBox(
-            height: 70,
+              SizedBox(
+                height: 70,
+              ),
+              Container(
+                child: terceros(context),
+              ),
+            ],
           ),
-          Container(
-            child: terceros(context),
-          ),
-        ],
-      ),
+        )
+      ],
     );
   }
 

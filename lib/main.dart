@@ -3,6 +3,8 @@ import 'package:flutter_try_project/pages/directEmergency.dart';
 //import 'package:flutter_try_project/pages/LoggedEmergencia.dart';
 //import 'package:flutter_try_project/pages/loggedView.dart';
 import 'package:flutter_try_project/pages/iniciarSesion.dart';
+import 'package:flutter_try_project/pages/create-new-account.dart';
+import 'package:flutter_try_project/pages/login-screen.dart';
 
 void main() {
   runApp(myApp());
@@ -49,36 +51,22 @@ class _homePageState extends State<homePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: ElevatedButton(
                   //ESTE BOTÓN ES PARA LOGEARSE EN EL APP
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => iniciarSesion()),
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
                     );
                   },
                   child: Center(
-                    child: Text("Login"),
+                    child: Text("Ingresar"),
                   )),
             ),
 
             ////////////////////////////////
             SizedBox(height: 100),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: Size.fromHeight(70)),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => directEmergency()),
-                    );
-                  },
-                  child: Center(child: Text("EMERGENCIA!!"))),
-            )
           ],
         ),
       ),

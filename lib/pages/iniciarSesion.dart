@@ -72,7 +72,9 @@ class _iniciarSesion extends State<iniciarSesion> {
   }
 
   Future loginRequest(String user, String password) async {
-    final apiURL = Uri.parse("http://sie-tech.live:7000/appAuthenticate");
+    //final apiURL = Uri.parse("http://sie-tech.live:7000/appAuthenticate");
+
+    final apiURL = Uri.parse("http://10.0.2.2:7000/appAuthenticate");
 
     final response =
         await saka.post(apiURL, body: {"username": user, "password": password});

@@ -76,7 +76,8 @@ class _tercerosEmergency extends State<tercerosEmergency> {
   }
 
   Future tercerosEmergencyRequest() async {
-    final apiURL = Uri.parse("http://sie-tech.live:7000/tercero");
+    // final apiURL = Uri.parse("http://sie-tech.live:7000/tercero");
+    final apiURL = Uri.parse("http://10.0.2.2:7000/personal");
 
     final response = await http.post(apiURL, body: {
       "id": widget.data.id.toString(),
