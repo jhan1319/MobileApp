@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter_try_project/pages/login-screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -34,7 +35,7 @@ class CreateNewAccount extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Stack(
       children: [
-        BackgroundImage(image: 'assets/images/login_SIE.jpg'),
+        BackgroundImage(image: 'assets/images/background.jpg'),
         Scaffold(
           backgroundColor: Colors.transparent,
           body: SingleChildScrollView(
@@ -147,7 +148,10 @@ class CreateNewAccount extends StatelessWidget {
                     SizedBox(
                       height: 25,
                     ),
-                    confirmar(context),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [Cancel(context), Confirm(context)],
+                    ),
                     SizedBox(
                       height: 30,
                     ),
@@ -160,7 +164,7 @@ class CreateNewAccount extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, '/');
+                            Navigator.pop(context);
                           },
                           child: Text(
                             'Login',
@@ -231,57 +235,121 @@ class CreateNewAccount extends StatelessWidget {
     );
   }
 
-  Widget confirmar(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 40),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(minimumSize: Size.fromHeight(1)),
-        onPressed: () {
-          if (userController.text != "" &&
-              cedulaController.text != "" &&
-              nombresController.text != "" &&
-              apellidosController.text != "" &&
-              nacimientoController.text != "" &&
-              sangreController.text != "" &&
-              sexoController.text != "" &&
-              arsController.text != "" &&
-              nssController.text != "" &&
-              passController.text != "") {
-            user = userController.text;
-            cedula = cedulaController.text;
-            nombres = nombresController.text;
-            apellidos = apellidosController.text;
-            nacimiento = nacimientoController.text;
-            sangre = sangreController.text;
-            sexo = sexoController.text;
-            ars = arsController.text;
-            nss = nssController.text;
-            pass = passController.text;
-
-            crearCuentaRequest(context);
-
-            //Aquí petición para crear la persona & el usuario
-          } else {
-            _alerta(context,
-                "Confirme que todos los campos han sido llenados satisfactoriamente antes de continuar.");
-          }
-        },
-        child: Column(
-          children: [
-            Icon(
-              Icons.check_circle_outline_outlined,
-              size: 50,
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              "Confirmar registro",
-              style: GoogleFonts.lato(fontSize: 30),
-            ),
-          ],
-        ),
+  Widget Confirm(BuildContext context) {
+    return ElevatedButton(
+      autofocus: true,
+      style: ElevatedButton.styleFrom(
+          primary: Colors.blue,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))),
+      child: Text(
+        "Confirmar",
+        style: GoogleFonts.lato(fontSize: 20),
       ),
+      onPressed: () {
+        if (userController.text != "" &&
+            cedulaController.text != "" &&
+            nombresController.text != "" &&
+            apellidosController.text != "" &&
+            nacimientoController.text != "" &&
+            sangreController.text != "" &&
+            sexoController.text != "" &&
+            arsController.text != "" &&
+            nssController.text != "" &&
+            passController.text != "") {
+          user = userController.text;
+          cedula = cedulaController.text;
+          nombres = nombresController.text;
+          apellidos = apellidosController.text;
+          nacimiento = nacimientoController.text;
+          sangre = sangreController.text;
+          sexo = sexoController.text;
+          ars = arsController.text;
+          nss = nssController.text;
+          pass = passController.text;
+
+          crearCuentaRequest(context);
+
+          //Aquí petición para crear la persona & el usuario
+        } else {
+          _alerta(context,
+              "Confirme que todos los campos han sido llenados satisfactoriamente antes de continuar.");
+        }
+      },
     );
   }
+
+  Widget Cancel(BuildContext context) {
+    return ElevatedButton(
+      autofocus: true,
+      style: ElevatedButton.styleFrom(
+          primary: Colors.red,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))),
+      child: Text("Cancelar",
+          style: GoogleFonts.lato(
+            fontSize: 20,
+          )),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+        );
+      },
+    );
+  }
+
+  // Widget confirmar(BuildContext context) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 40),
+  //     child: ElevatedButton(
+  //       style: ElevatedButton.styleFrom(minimumSize: Size.fromHeight(1)),
+  //       onPressed: () {
+  //         if (userController.text != "" &&
+  //             cedulaController.text != "" &&
+  //             nombresController.text != "" &&
+  //             apellidosController.text != "" &&
+  //             nacimientoController.text != "" &&
+  //             sangreController.text != "" &&
+  //             sexoController.text != "" &&
+  //             arsController.text != "" &&
+  //             nssController.text != "" &&
+  //             passController.text != "") {
+  //           user = userController.text;
+  //           cedula = cedulaController.text;
+  //           nombres = nombresController.text;
+  //           apellidos = apellidosController.text;
+  //           nacimiento = nacimientoController.text;
+  //           sangre = sangreController.text;
+  //           sexo = sexoController.text;
+  //           ars = arsController.text;
+  //           nss = nssController.text;
+  //           pass = passController.text;
+
+  //           crearCuentaRequest(context);
+
+  //           //Aquí petición para crear la persona & el usuario
+  //         } else {
+  //           _alerta(context,
+  //               "Confirme que todos los campos han sido llenados satisfactoriamente antes de continuar.");
+  //         }
+  //       },
+  //       child: Column(
+  //         children: [
+  //           Icon(
+  //             Icons.check_circle_outline_outlined,
+  //             size: 50,
+  //           ),
+  //           SizedBox(
+  //             height: 5,
+  //           ),
+  //           Text(
+  //             "Confirmar registro",
+  //             style: GoogleFonts.lato(fontSize: 30),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

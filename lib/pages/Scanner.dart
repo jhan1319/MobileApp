@@ -112,7 +112,10 @@ class _scan extends State<scan> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text("Escanear QR Cedula")
+                            Text(
+                              "Escanear QR Cedula",
+                              style: GoogleFonts.lato(fontSize: 20),
+                            )
                           ],
                         )),
                     /*RaisedButton(
@@ -122,23 +125,23 @@ class _scan extends State<scan> {
                             onPressed: () => startBarcodeScanStream(),
                             child: Text("Start barcode scan stream")),*/
                     // ignore: unrelated_type_equality_checks
-                    ('$_scanBarcode'.toLowerCase() != "unknown")
-                        ? scaneado()
-                        : Noscaneado(),
-                    Text('Resultado del Scan : $_scanBarcode\n',
-                        style: TextStyle(fontSize: 20))
+                    // ('$_scanBarcode'.toLowerCase() != "unknown")
+                    //     ? scaneado()
+                    //     : Noscaneado(),
+                    // Text('Resultado del Scan : $_scanBarcode\n',
+                    //     style: TextStyle(fontSize: 20))
                   ]));
         }));
   }
 
   /////////////////WIDGETS///////////////////////////////////////
 
-  Widget scaneado() {
-    return Text("El código QR ha sido escaneado");
-  }
+  // Widget scaneado() {
+  //   return Text("El código QR ha sido escaneado");
+  // }
 
-  // ignore: non_constant_identifier_names
-  Widget Noscaneado() {
-    return Text("Error al escanear el código QR");
-  }
+  // // ignore: non_constant_identifier_names
+  // Widget Noscaneado() {
+  //   return Text("Error al escanear el código QR");
+  // }
 }

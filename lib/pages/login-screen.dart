@@ -5,6 +5,7 @@ import 'package:flutter_try_project/pallete.dart';
 import 'package:flutter_try_project/widgets/widgets.dart';
 import 'package:flutter_try_project/pages/create-new-account.dart';
 import 'package:http/http.dart' as saka;
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_try_project/pages/vistaLogged.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -17,57 +18,66 @@ class LoginScreen extends StatelessWidget {
     return Stack(
       children: [
         BackgroundImage(
-          image: 'assets/images/login_SIE.jpg',
+          image: 'assets/images/background.jpg',
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
-          body: Column(
+          body: ListView(
             children: [
-              Flexible(
-                child: Center(
-                  child: Text(
-                    'S.I.E. Iniciar Sesión',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TextInputField(
-                    icon: FontAwesomeIcons.envelope,
-                    hint: 'Usuario',
-                    inputType: TextInputType.emailAddress,
-                    inputAction: TextInputAction.next,
-                    controller: userController,
-                  ),
-                  PasswordInput(
-                    icon: FontAwesomeIcons.lock,
-                    hint: 'Contraseña',
-                    inputAction: TextInputAction.done,
-                    controller: passController,
-                  ),
-                  confirmar(context),
-                  SizedBox(
-                    height: 120,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 40),
-                    child: registro(context),
-                  ),
-                ],
-              ),
-              // RoundedButton(
-              //   buttonName: 'Crear una cuenta',
-              //   onPressed: () {}, //PARA MANDAR EL JSON CON INFO DE LOGIN
-              // ),
+              Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Container(
+                      height: 250,
+                      child: Image(
+                        image: AssetImage('assets/images/logoSie.png'),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TextInputField(
+                          icon: FontAwesomeIcons.envelope,
+                          hint: 'Usuario',
+                          inputType: TextInputType.emailAddress,
+                          inputAction: TextInputAction.next,
+                          controller: userController,
+                        ),
+                        PasswordInput(
+                          icon: FontAwesomeIcons.lock,
+                          hint: 'Contraseña',
+                          inputAction: TextInputAction.done,
+                          controller: passController,
+                        ),
+                        entrar(context),
+                        SizedBox(
+                          height: 60,
+                        ),
+                        Text(
+                          "Aún no estás registrado?",
+                          style: GoogleFonts.lato(
+                              fontSize: 20, color: Colors.white),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 40),
+                          child: Registrar(context),
+                        ),
+                      ],
+                    ),
+                    // RoundedButton(
+                    //   buttonName: 'Crear una cuenta',
+                    //   onPressed: () {}, //PARA MANDAR EL JSON CON INFO DE LOGIN
+                    // ),
 
-              SizedBox(
-                height: 20,
+                    SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -76,42 +86,91 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget confirmar(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(minimumSize: Size.fromHeight(1)),
-        onPressed: () async {
-          final user = userController.text;
-          final password = passController.text;
-          await loginRequest(user, password);
-          if (log) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Vistalogged(userData)),
-            );
-          } else {
-            //AGREGAR POPUP INDICANDO QUE HUBO ERROR DE INICIO DE SESION
-          }
+  // Widget confirmar(BuildContext context) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+  //     child: ElevatedButton(
+  //       style: ElevatedButton.styleFrom(minimumSize: Size.fromHeight(1)),
+  //       onPressed: () async {
+  //         final user = userController.text;
+  //         final password = passController.text;
+  //         await loginRequest(user, password);
+  //         if (log) {
+  //           Navigator.push(
+  //             context,
+  //             MaterialPageRoute(builder: (context) => Vistalogged(userData)),
+  //           );
+  //         } else {
+  //           //AGREGAR POPUP INDICANDO QUE HUBO ERROR DE INICIO DE SESION
+  //         }
 
-          //print(loginRequest(user, password));
-        },
-        child: Column(
-          children: [
-            Icon(
-              Icons.login,
-              size: 50,
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              "Iniciar Sesión",
-              style: TextStyle(fontSize: 20),
-            ),
-          ],
-        ),
-      ),
+  //         //print(loginRequest(user, password));
+  //       },
+  //       child: Column(
+  //         children: [
+  //           Icon(
+  //             Icons.login,
+  //             size: 50,
+  //           ),
+  //           SizedBox(
+  //             height: 5,
+  //           ),
+  //           Text(
+  //             "Iniciar Sesión",
+  //             style: TextStyle(fontSize: 20),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  Widget entrar(BuildContext context) {
+    return ElevatedButton(
+      autofocus: true,
+      style: ElevatedButton.styleFrom(
+          primary: Colors.blue,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))),
+      child: Text("Iniciar Sesión",
+          style: GoogleFonts.lato(
+            fontSize: 20,
+          )),
+      onPressed: () async {
+        final user = userController.text;
+        final password = passController.text;
+        await loginRequest(user, password);
+        if (log) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Vistalogged(userData)),
+          );
+        } else {
+          //AGREGAR POPUP INDICANDO QUE HUBO ERROR DE INICIO DE SESION
+        }
+
+        //print(loginRequest(user, password));
+      },
+    );
+  }
+
+  Widget Registrar(BuildContext context) {
+    return ElevatedButton(
+      autofocus: true,
+      style: ElevatedButton.styleFrom(
+          primary: Colors.blue,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))),
+      child: Text("Crear cuenta",
+          style: GoogleFonts.lato(
+            fontSize: 20,
+          )),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CreateNewAccount()),
+        );
+      },
     );
   }
 

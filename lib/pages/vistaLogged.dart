@@ -38,7 +38,7 @@ class _Vistalogged extends State<Vistalogged> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        BackgroundImage(image: 'assets/images/login_SIE.jpg'),
+        BackgroundImage(image: 'assets/images/background.jpg'),
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(),
@@ -111,7 +111,7 @@ class _Vistalogged extends State<Vistalogged> {
             ),
             Text(
               "Emergencia Personal",
-              style: GoogleFonts.lato(fontSize: 20),
+              style: GoogleFonts.lato(fontSize: 20, color: Colors.white),
             ),
           ],
         ),
@@ -163,7 +163,10 @@ class Menu extends StatelessWidget {
         children: <Widget>[
           // ignore: missing_required_param
           UserAccountsDrawerHeader(
-            accountName: Text("Bienvenidooo"),
+            accountName: Text(
+              "Bienvenido!",
+              style: GoogleFonts.lato(fontSize: 16, color: Colors.black),
+            ),
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(

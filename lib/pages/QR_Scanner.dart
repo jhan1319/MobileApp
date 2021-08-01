@@ -123,21 +123,21 @@ class _ScannerState extends State<Scanner> {
                             onPressed: () => startBarcodeScanStream(),
                             child: Text("Start barcode scan stream")),*/
                         // ignore: unrelated_type_equality_checks
-                        ('$_scanBarcode'.toLowerCase() != "unknown")
-                            ? scaneado()
-                            : Noscaneado(),
-                        Text('Resultado del Scan : $_scanBarcode\n',
-                            style: TextStyle(fontSize: 20))
+                        // ('$_scanBarcode'.toLowerCase() != "unknown")
+                        //     ? scaneado()
+                        //     : Noscaneado(),
+                        // Text('Resultado del Scan : $_scanBarcode\n',
+                        //     style: TextStyle(fontSize: 20))
                       ]));
             })));
   }
 
-  Widget scaneado() {
-    return Text("El código QR ha sido escaneado");
-  }
+  // Widget scaneado() {
+  //   return Text("El código QR ha sido escaneado");
+  // }
 
-  // ignore: non_constant_identifier_names
-  Widget Noscaneado() {
-    return Text("Error al escanear el código QR");
-  }
+  // // ignore: non_constant_identifier_names
+  // Widget Noscaneado() {
+  //   return Text("Error al escanear el código QR");
+  // }
 }
